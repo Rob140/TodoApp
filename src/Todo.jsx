@@ -5,36 +5,44 @@ import styles from "./Todo.module.css";
 const Todo = () => {
   const [inputvalue, setInputvalue] = useState("");
   const [todos, setTodos] = useState([]);
-  const newitem = {
-    value: inputvalue,
-    id: Date.now(),
-  };
   function Addtodo(e) {
     e.preventDefault();
-    setTodos([...todos, newitem]);
+    if (!inputvalue.trim()) return;
+    setTodos((prev) => [...prev, { value: inputvalue.trim(), id: Date.now() }]);
+    setInputvalue("");
   }
   function removetodo(id) {
     setTodos(todos.filter((todo) => todo.id !== id));
   }
   return (
-    <>
-      <div className="todoContainer">
+    <div className={styles.wrapper}>
+      <h1 className={styles.title}>Todo List</h1>
+      <form className={styles.form} onSubmit={Addtodo}>
         <input
+          className={styles.input}
           type="text"
+          placeholder="Add a new task"
           value={inputvalue}
           onChange={(e) => setInputvalue(e.target.value)}
         />
-        <button onClick={Addtodo}>addtodo</button>
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>
-              <span>{todo.value}</span>
-              <button onClick={() => removetodo(todo.id)}>remove</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+        <button className={styles.addButton} type="submit">
+          Add
+        </button>
+      </form>
+      <ul className={styles.list}>
+        {todos.map((todo) => (
+          <li key={todo.id} className={styles.item}>
+            <span className={styles.text}>{todo.value}</span>
+            <button
+              className={styles.removeButton}
+              onClick={() => removetodo(todo.id)}
+            >
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
