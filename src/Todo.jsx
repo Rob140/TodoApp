@@ -14,6 +14,7 @@ const Todo = () => {
   function removetodo(id) {
     setTodos(todos.filter((todo) => todo.id !== id));
   }
+
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Todo List</h1>
